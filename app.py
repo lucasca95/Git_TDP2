@@ -40,5 +40,9 @@ def index(pag=None, tam=None):
             return render_template('index.html', param_contenido=s, param_longitud=longitud)
         return "ERROR EN LOS PARAMETROS"
 
+@app.route('/grupo', methods=['GET'])
+def creditos():
+    return render_template('grupo.html')
+
 if __name__=="__main__":
     app.run(debug='True', host='0.0.0.0', port=5555)

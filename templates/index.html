@@ -1,0 +1,7 @@
+{% if param_longitud == 1 %}
+    {{param_contenido}}
+{% else %}
+    {% for l in param_contenido %}
+        {{l}}
+    {% endfor %}
+{% endif %}

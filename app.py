@@ -1,21 +1,38 @@
-from flask import Flask
+from flask import Flask, render_template
 
 app = Flask(__name__)
 
 @app.route('/', methods=['GET'])
+@app.route('/<int:pag>/<int:tam>', methods=['GET'])
 def index(pag=None, tam=None):
     if ((pag==None) or (tam==None)):
         return "ERROR. Por favor elegir /pag/tam"
     else:
         #Leer el archivo
-
-        if ((pag==0) and (tam==0)):
+        f_name='programaGrande.txt'
+        try:
+            f=open(f_name, 'rt')
+            contenido=f.readlines()
+        except:
+            print('Hubo un error en el try')
+        finally:
+            f.close()
+        if ((pag==0)and(tam==0)):
+            longitud=len(contenido)
             #Devolver todo el archivo
-            pass
-        elif (pag==tam):
-            #Devolver sólo una línea
-            pass
-        return "Se devolvió una línea"
+            return render_template('index.html', param_contenido=contenido, param_longitud=longitud)
+        elif (tam==1):
+            #Devolver línea
+            contenido=contenido[pag]
+            longitud=1
+            return render_template('index.html', param_contenido=contenido, param_longitud=longitud)
+        else:
+            #inicial = pag*tam
+            #final = ((pag+1) * tam)
+            contenido = contenido[(pag*tam):((pag+1)*tam)]
+            longitud = len(contenido)
+            return render_template('index.html', param_contenido=contenido, param_longitud=longitud)
+        return "ERROR EN LOS PARAMETROS"
 
 if __name__=="__main__":
     app.run(debug='True', host='0.0.0.0', port=5555)

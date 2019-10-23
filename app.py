@@ -3,7 +3,7 @@ from flask import Flask, render_template
 app = Flask(__name__)
 
 @app.route('/', methods=['GET'])
-@app.route('/<int:pag>/<int:tam>', methods=['GET'])
+@app.route('/<int:pag>/<int:tam>/', methods=['GET'])
 def index(pag=None, tam=None):
     if ((pag==None) or (tam==None)):
         return "ERROR. Por favor elegir /pag/tam"
@@ -20,7 +20,10 @@ def index(pag=None, tam=None):
         if ((pag==0)and(tam==0)):
             longitud=len(contenido)
             #Devolver todo el archivo
-            return render_template('index.html', param_contenido=contenido, param_longitud=longitud)
+            s=''
+            for lin in contenido:
+                s += lin.strip()
+            return render_template('index.html', param_contenido=s, param_longitud=longitud)
         elif (tam==1):
             #Devolver línea
             contenido=contenido[pag]
@@ -31,7 +34,10 @@ def index(pag=None, tam=None):
             #final = ((pag+1) * tam)
             contenido = contenido[(pag*tam):((pag+1)*tam)]
             longitud = len(contenido)
-            return render_template('index.html', param_contenido=contenido, param_longitud=longitud)
+            s=''
+            for lin in contenido:
+                s += lin.strip()
+            return render_template('index.html', param_contenido=s, param_longitud=longitud)
         return "ERROR EN LOS PARAMETROS"
 
 if __name__=="__main__":

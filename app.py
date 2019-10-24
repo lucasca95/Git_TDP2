@@ -24,6 +24,8 @@ def index(pag=None, tam=None):
             for lin in contenido:
                 s += lin.strip()
             return render_template('index.html', param_contenido=s, param_longitud=longitud)
+        elif (tam==0):
+            return "Pedido de tam=0 invalido"
         elif (tam==1):
             #Devolver línea
             contenido=contenido[pag]

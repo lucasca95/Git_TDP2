@@ -9,7 +9,7 @@ def index(pag=None, tam=None):
         return "ERROR. Por favor elegir /pag/tam"
     else:
         #Leer el archivo
-        f_name='programaGrande.txt'
+        f_name='programa.txt'
         try:
             f=open(f_name, 'rt')
             contenido=f.readlines()

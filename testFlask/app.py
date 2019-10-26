@@ -1,7 +1,17 @@
-from flask import Flask, render_template
+from flask import Flask, url_for, render_template, request, Response
+from flask_static_compress import FlaskStaticCompress
 import sqlite3
 
-app = Flask(__name__)
+app = Flask(__name__,
+            instance_relative_config=False,
+            template_folder="templates",
+            static_folder="static"
+            )
+
+app.config['COMPRESSOR_DEBUG'] = app.config.get('DEBUG')
+app.config['COMPRESSOR_STATIC_PREFIX'] = 'static'
+app.config['COMPRESSOR_OUTPUT_DIR'] = 'build'
+compress = FlaskStaticCompress(app)
 
 @app.route('/', methods=['GET'])
 @app.route('/<int:pag>/<int:tam>/', methods=['GET'])

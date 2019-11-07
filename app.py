@@ -1,5 +1,4 @@
 from flask import Flask, render_template
-import sqlite3
 import re
 
 app = Flask(__name__)
@@ -51,15 +50,20 @@ def creditos():
 @app.route('/<mac>', methods=['GET', 'POST'])
 def check_version(mac=None):
     version = ''
+    # Corroborar que no llegue MAC vacía
     if(mac == None):
         version= "Llega MAC vacía"
+    # Corroborar formato de direcc MAC
     elif (re.match("^([0-f][0-f][:-]){5}[0-f][0-f]$", mac)):
-        if (mac == 'A0:20:A6:00:F3:CD'):
+        if (mac.upper() == 'A0:20:A6:00:F3:CD'):
             version = 'NewVersion'
-        elif (mac == 'A0:20:A6:00:F3:CC'):
+        elif (mac.upper() == 'A0:20:A6:00:F3:CC'):
             version = 'Updated'
+        elif (mac.upper() == 'TUVIEJAENTANGA'):
+            version = 'Vaaamooo newelsss'
         else:
             version = 'Invalid'
+    # El formato de MAC es inválido
     else:
         version = 'Formato de MAC inválido'
     return render_template('dar_version.html', param_version=version)

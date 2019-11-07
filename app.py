@@ -10,9 +10,9 @@ def index(pag=None, tam=None):
         return "ERROR. Por favor elegir /pag/tam"
     else:
         #Leer el archivo
-        f_name='programa.txt'
+        f_name='chico.txt'
         try:
-            f=open(f_name, 'rt')
+            f=open("./testFlask/programas/"+f_name, 'rt')
             contenido=f.readlines()
         except:
             print('Hubo un error en el try')

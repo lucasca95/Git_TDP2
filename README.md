@@ -1,1 +1,1 @@
-Paginación para el proyecto de TdP2
+Proyecto de TdP2

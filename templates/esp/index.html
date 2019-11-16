@@ -1,0 +1,11 @@
+<h3>Esp list</h3>
+
+<form action='/esps/create' method="GET">
+    <input type="submit" class='btn' value="Crear otra ESP">
+</form>
+
+<ul>
+{% for e in param_esp_list %}
+    <li>ID:{{e.id}} -- MAC=<strong>{{e.mac}}</strong> -- Versión Firmware: {{e.versionEsp}}</li>
+{% endfor %}
+</ul>

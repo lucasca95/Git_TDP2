@@ -1,6 +1,5 @@
 from flask import Flask, Response, render_template, request, redirect, url_for, session
-from flask_sqlalchemy import SQLAlchemy
-from flask_marshmallow import Marshmallow
+from flaskext.mysql import MySQL
 import os
 import re
 
@@ -14,25 +13,31 @@ def session_management():
   session.permanent = True
 
 basedir = os.path.abspath(os.path.dirname(__file__))
-# BDD
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir, 'db.sqlite')
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-# Init SQLAlchemy
-db = SQLAlchemy(app)
-# Init Marshmallow
-mw = Marshmallow(app)
+
+# BDD - MySQL
+mysql = MySQL()
+# MySQL configurations
+app.config['MYSQL_DATABASE_USER'] = 'root'
+app.config['MYSQL_DATABASE_PASSWORD'] = 'Culosucio'
+app.config['MYSQL_DATABASE_DB'] = 'cicd'
+app.config['MYSQL_DATABASE_HOST'] = 'localhost'
+mysql.init_app(app)
+
+# Conexión con BDD
+conn = mysql.connect()
+# Crear cursor
+cursor = mysql.get_db().cursor()
 
 # ---- CLASES ----
 # Modelo de Dispositivo
-class Dispositivo(db.Model):
+class Esp(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     mac = db.Column(db.String(17))
-    act_firmware = db.Column(db.Integer, unique = False)
+    versionEsp = db.Column(db.Integer, unique = False)
 
-    def __init__(self, mac, act_firmware):
+    def __init__(self, mac, versionEsp):
       self.mac = mac
-      self.act_firmware = act_firmware
-
+      self.versionEsp = versionEsp
 # ---- FIN CLASES ----
 
 @app.route('/', methods=['GET'])
@@ -81,50 +86,50 @@ def index(pag=None, tam=None):
 def creditos():
     return render_template('grupo.html')
 
-@app.route('/<mac>', methods=['GET', 'POST'])
-def check_version(mac=None):
-    version = ''
+@app.route('/<macEsp>', methods=['GET', 'POST'])
+def check_version(macEsp=None):
+    versionEsp = ''
     # Corroborar que no llegue MAC vacía
-    if(mac == None):
-        version= "Llega MAC vacía"
+    if(macEsp == None):
+        versionEsp= "Llega MAC vacía"
     # Corroborar formato de direcc MAC
-    elif (re.match("^([0-f][0-f][:-]){5}[0-f][0-f]$", mac)):
-        if (mac.upper() == 'A0:20:A6:00:F3:CD'):
-            version = 'NewVersion'
-        elif (mac.upper() == 'A0:20:A6:00:F3:CC'):
-            version = 'Updated'
-        elif (mac.upper() == 'TUVIEJAENTANGA'):
-            version = 'Vaaamooo newelsss'
+    elif (re.match("^([0-f][0-f][:-]){5}[0-f][0-f]$", macEsp)):
+        if (macEsp.upper() == 'A0:20:A6:00:F3:CD'):
+            versionEsp = 'NewVersion'
+        elif (macEsp.upper() == 'A0:20:A6:00:F3:CC'):
+            versionEsp = 'Updated'
+        elif (macEsp.upper() == 'TUVIEJAENTANGA'):
+            versionEsp = 'Vaaamooo newelsss'
         else:
-            version = 'Invalid'
+            versionEsp = 'Invalid'
     # El formato de MAC es inválido
     else:
-        version = 'Formato de MAC inválido'
-    return render_template('dar_version.html', param_version=version)
+        versionEsp = 'Formato de MAC inválido'
+    return render_template('dar_version.html', param_versionEsp=versionEsp)
 
-@app.route('/dispositivos/', methods=['GET', 'POST'])
-def dispositivo_index():
-    lista_dispositivos = Dispositivo.query.all()
-    return render_template('./dispositivo/index.html', param_lista_dispositivos=lista_dispositivos)
+@app.route('/esps/', methods=['GET', 'POST'])
+def esps_index():
+    esp_list = Esp.query.all()
+    return render_template('./esp/index.html', param_esp_list=esp_list)
 
-@app.route('/dispositivos/create', methods=['GET', 'POST'])
+@app.route('/esps/create', methods=['GET', 'POST'])
 def dispositivo_create():
     if request.method == 'GET':
         print("Entramos al GET")
-        return render_template('./dispositivo/create.html')
+        return render_template('./esps/create.html')
     elif (request.method == 'POST'):
-        nueva_mac='A0:BB:BB:BB:22:AA'
+        new_mac='A0:BB:BB:BB:22:AA'
         if (session["cantMAC"] == 0):
-            nueva_mac='A0:20:A6:00:F3:CD'
+            new_mac='A0:20:A6:00:F3:CD'
             session["cantMAC"] = 1
         elif (session["cantMAC"] == 1):
-            nueva_mac='A0:20:A6:00:F3:CC'
+            new_mac='A0:20:A6:00:F3:CC'
             session["cantMAC"] = 2
-        nuevo_dispositivo = Dispositivo(mac=nueva_mac,act_firmware=1)
-        db.session.add(nuevo_dispositivo)
+        new_esp = Esp(mac=new_mac,versionEsp=1)
+        db.session.add(new_esp)
         db.session.commit()
-        return redirect('/dispositivos/')
+        return redirect('/esps/')
 
 # Run Server
 if __name__=="__main__":
-    app.run(debug='True', host='0.0.0.0', port=5555)
+    app.run(debug='True', host='0.0.0.0', port=5556)

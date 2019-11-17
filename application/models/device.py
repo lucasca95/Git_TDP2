@@ -14,6 +14,7 @@ class Device(db.Model):
   # tipo de target del dispositivo
   target_id = db.Column(db.Integer, db.ForeignKey('target.id'))
 
+  # un device posee varios programs
   programs = db.relationship('Program', secondary=devicesprograms, backref=db.backref('devices', lazy='dynamic'))
 
   ### Hora de creación y modificación ###

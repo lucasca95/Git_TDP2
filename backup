@@ -1,10 +1,12 @@
 from flask import Flask, Response, render_template, request, redirect, url_for, session
-from flaskext.mysql import MySQL
+from flask_sqlalchemy import SQLAlchemy
 import os
 import re
+from datetime import datetime
 
 # Init App
 app = Flask(__name__)
+
 # Establecer clave secreta para uso de variables de session en cookies
 # y setearlas como permanentes
 app.secret_key="1234"
@@ -14,31 +16,14 @@ def session_management():
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 
-# BDD - MySQL
-mysql = MySQL()
+
 # MySQL configurations
-app.config['MYSQL_DATABASE_USER'] = 'root'
-app.config['MYSQL_DATABASE_PASSWORD'] = 'Culosucio'
-app.config['MYSQL_DATABASE_DB'] = 'cicd'
-app.config['MYSQL_DATABASE_HOST'] = 'localhost'
-mysql.init_app(app)
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:Culosucio@localhost/cicd'
 
-# Conexión con BDD
-conn = mysql.connect()
-# Crear cursor
-cursor = mysql.get_db().cursor()
+# BDD - MySQL
+db = SQLAlchemy(app)
 
-# ---- CLASES ----
-# Modelo de Dispositivo
-class Esp(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    mac = db.Column(db.String(17))
-    versionEsp = db.Column(db.Integer, unique = False)
-
-    def __init__(self, mac, versionEsp):
-      self.mac = mac
-      self.versionEsp = versionEsp
-# ---- FIN CLASES ----
 
 @app.route('/', methods=['GET'])
 @app.route('/<int:pag>/<int:tam>/', methods=['GET'])
@@ -132,4 +117,4 @@ def dispositivo_create():
 
 # Run Server
 if __name__=="__main__":
-    app.run(debug='True', host='0.0.0.0', port=5556)
+    app.run(debug='True', host='0.0.0.0', port=5555)

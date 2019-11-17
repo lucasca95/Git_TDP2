@@ -1,6 +1,7 @@
 from application import db
 from target import Target
 from devicesprograms import devicesprograms
+from error import Error
 from datetime import datetime
 
 # Modelo de Device
@@ -16,6 +17,9 @@ class Device(db.Model):
 
   # un device posee varios programs
   programs = db.relationship('Program', secondary=devicesprograms, backref=db.backref('devices', lazy='dynamic'))
+
+  # un device puede tener muchos errores
+  errors = db.relationship('Error', backref='device')
 
   ### Hora de creación y modificación ###
   created_at = db.Column(db.DateTime, default = datetime.now)

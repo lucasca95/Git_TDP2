@@ -1,6 +1,6 @@
 from application import db
 from target import Target
-from devicesprograms import DevicesPrograms
+from devicesprograms import devicesprograms
 from datetime import datetime
 
 # Modelo de Device
@@ -14,7 +14,7 @@ class Device(db.Model):
   # tipo de target del dispositivo
   target_id = db.Column(db.Integer, db.ForeignKey('target.id'))
 
-  programs = db.relationship('Program', backref=db.backref('devices', lazy='dynamic'))
+  programs = db.relationship('Program', secondary=devicesprograms, backref=db.backref('devices', lazy='dynamic'))
 
   ### Hora de creación y modificación ###
   created_at = db.Column(db.DateTime, default = datetime.now)

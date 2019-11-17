@@ -1,5 +1,5 @@
 from application import db
-from devicesprograms import DevicesPrograms
+from devicesprograms import devicesprograms
 from datetime import datetime
 
 # Modelo de Program
@@ -11,7 +11,8 @@ class Program(db.Model):
   program_name = db.Column(db.String(50), unique = False)
 
   ## Relaciones ##
-
+  # un device tiene muchos programas
+  # RELACION YA RESUELTA EN EL MODELO DEVICE Y DEVICESPROGRAMS
 
   created_at = db.Column(db.DateTime, default = datetime.now)
   updated_at = db.Column(db.DateTime, default = datetime.now)

@@ -1,5 +1,7 @@
 
+
 class Config(object):
+
     DEBUG = False
     TESTING = False
 
@@ -21,6 +23,7 @@ class DevelopmentConfig(Config):
     SESSION_COOKIE_CACHE = False
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     SQLALCHEMY_DATABASE_URI = 'sqlite:///db.sqlite'
+    SQLALCHEMY_ECHO = True
 
 class TestingConfig(Config):
     TESTING=True

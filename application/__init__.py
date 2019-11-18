@@ -15,6 +15,7 @@ else:
 
 # BDD
 db = SQLAlchemy(app)
+app.config['SEED_RAN'] = False
 
 from application.models import device, program, error, esp, target, devicesprograms
 

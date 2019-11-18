@@ -14,7 +14,7 @@ elif app.config['ENV'] == 'testing':
 else:
     app.config.from_object('config.ProductionConfig')
 
-# BDD - MySQL
+# BDD
 db = SQLAlchemy(app)
 
 # from application import nombre_vista

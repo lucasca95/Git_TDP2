@@ -14,13 +14,13 @@ class Config(object):
     SESSION_COOKIE_CACHE = True
 
 class ProductionConfig(Config):
-    pass
+    SQLALCHEMY_DATABASE_URI = 'mysql://root:Culosucio@localhost/cicd'
 
 class DevelopmentConfig(Config):
     DEBUG = False
     SESSION_COOKIE_CACHE = False
     SQLALCHEMY_TRACK_MODIFICATIONS = False
-    SQLALCHEMY_DATABASE_URI = 'mysql://root:Culosucio@localhost/cicd'
+    SQLALCHEMY_DATABASE_URI = 'sqlite:///db.sqlite'
 
 class TestingConfig(Config):
     TESTING=True

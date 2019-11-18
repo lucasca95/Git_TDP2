@@ -1,5 +1,4 @@
 from application import db
-from devicesprograms import devicesprograms
 from datetime import datetime
 
 # Modelo de Program

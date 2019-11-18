@@ -1,7 +1,5 @@
 from application import db
-from target import Target
-from devicesprograms import devicesprograms
-from error import Error
+from .devicesprograms import devicesprograms
 from datetime import datetime
 
 # Modelo de Device

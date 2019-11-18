@@ -1,6 +1,5 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
-from application.models  import esp, target, program
 
 app = Flask(__name__)
 
@@ -17,8 +16,11 @@ else:
 # BDD
 db = SQLAlchemy(app)
 
-# from application import nombre_vista
+from application.models import device, program, error, esp, target, devicesprograms
+
+# from application import xxxxx_controller
 from application import home_controller
+from application import seeds_controller
 
 ### Listar los atributos de configuración ###
 # for k,v in app.config.items():

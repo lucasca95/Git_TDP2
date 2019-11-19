@@ -23,7 +23,7 @@ class DevelopmentConfig(Config):
     SESSION_COOKIE_CACHE = False
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     SQLALCHEMY_DATABASE_URI = 'sqlite:///db.sqlite'
-    SQLALCHEMY_ECHO = True
+    SQLALCHEMY_ECHO = False
 
 class TestingConfig(Config):
     TESTING=True

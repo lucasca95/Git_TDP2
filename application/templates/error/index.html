@@ -1,0 +1,14 @@
+<h2>Errors Index</h2>
+
+<table>
+    <tr>
+        <th>ID</th>
+        <th>Message</th>
+    </tr>
+    {% for error in param_errors_list %}
+    <tr>
+        <td>{{error.id}}</td>
+        <td>{{error.message}}</td>
+    </tr>
+    {% endfor %}
+</table>

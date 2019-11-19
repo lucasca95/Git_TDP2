@@ -21,6 +21,13 @@ from application.models import device, program, error, esp, target, devicesprogr
 
 # from application import xxxxx_controller
 from application import home_controller
+
+from application import device_controller
+from application import error_controller
+from application import esp_controller
+from application import program_controller
+from application import target_controller
+
 from application import seeds_controller
 
 ### Listar los atributos de configuración ###

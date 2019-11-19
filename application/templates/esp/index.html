@@ -1,0 +1,20 @@
+<h2>Esps Index</h2>
+
+<table>
+    <tr>
+        <th>ID</th>
+        <th>MAC</th>
+        <th>esp_version</th>
+        <th>created_at</th>
+        <th>updated_at</th>
+    </tr>
+    {% for esp in param_esps_list %}
+    <tr>
+        <td>{{esp.id}}</td>
+        <td>{{esp.mac}}</td>
+        <td>{{esp.esp_version}}</td>
+        <td>{{esp.created_at}}</td>
+        <td>{{esp.updated_at}}</td>
+    </tr>
+    {% endfor %}
+</table>

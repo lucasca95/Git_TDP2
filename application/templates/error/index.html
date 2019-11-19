@@ -1,14 +1,26 @@
+{% extends 'layout.html' %}
+
+{% block body %}
 <h2>Errors Index</h2>
 
-<table>
-    <tr>
-        <th>ID</th>
-        <th>Message</th>
-    </tr>
-    {% for error in param_errors_list %}
-    <tr>
-        <td>{{error.id}}</td>
-        <td>{{error.message}}</td>
-    </tr>
-    {% endfor %}
-</table>
+<div class="container">
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Message</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for error in param_errors_list %}
+            <tr>
+                <td>{{error.id}}</td>
+                <td>{{error.message}}</td>
+                <td>{{error.created_at}}</td>
+                <td>{{error.updated_at}}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

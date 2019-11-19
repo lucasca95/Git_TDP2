@@ -1,36 +1,36 @@
+{% extends 'layout.html' %}
+
+{% block body %}
 <h2>Devices Index</h2>
 
-<table>
-    <tr>
-        <th>ID</th>
-        <th>Message</th>
-    </tr>
-    {% for error in param_errors_list %}
-    <tr>
-        <td>{{error.id}}</td>
-        <td>{{error.message}}</td>
-    </tr>
-    {% endfor %}
-</table>
-
-
-device_name = db.Column(db.String(50), unique = False)
-  device_latitude = db.Column(db.Integer, unique = False)
-  device_longitude = db.Column(db.Integer, unique = False)
-
-  ### Relaciones ###
-  # un device pertenece a una ESP
-  esp_id = db.Column(db.Integer, db.ForeignKey('esp.id'))
-
-  # tipo de target del dispositivo
-  target_id = db.Column(db.Integer, db.ForeignKey('target.id'))
-
-  # un device posee varios programs
-  programs = db.relationship('Program', secondary=devicesprograms, backref=db.backref('devices', lazy='dynamic'))
-
-  # un device puede tener muchos errores
-  errors = db.relationship('Error', backref='device')
-
-  ### Hora de creación y modificación ###
-  created_at = db.Column(db.DateTime, default = datetime.now)
-  updated_at = db.Column(db.DateTime, default = datetime.now)
+<div class="container">
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>device_name</th>
+                <th>device_latitude</th>
+                <th>device_longitude</th>
+                <th>esp_id</th>
+                <th>target_id</th>
+                <th>created_at</th>
+                <th>updated_at</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for device in param_devices_list %}
+            <tr>
+                <td>{{device.id}}</td>
+                <td>{{device.device_name}}</td>
+                <td>{{device.device_latitude}}</td>
+                <td>{{device.device_longitude}}</td>
+                <td>{{device.esp_id}}</td>
+                <td>{{device.target_id}}</td>
+                <td>{{device.created_at}}</td>
+                <td>{{device.updated_at}}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
